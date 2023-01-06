@@ -6,6 +6,8 @@ import { ContactFormTitle } from './ContactFormTitle/ContactFormTitle';
 import { ContactList } from './ContactList/ContactList';
 import { ContactFilter } from './ContactFilter/ContactFilter';
 
+const CONTACTS_LOCAL_STORAGE = 'contacts';
+
 export class App extends Component {
   state = {
     contacts: [
@@ -53,16 +55,19 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
+    const contacts = localStorage.getItem(CONTACTS_LOCAL_STORAGE);
     const jsonParseContacts = JSON.parse(contacts);
     if (jsonParseContacts) {
       this.setState({ contacts: jsonParseContacts });
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_, prevState) {
     if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      localStorage.setItem(
+        CONTACTS_LOCAL_STORAGE,
+        JSON.stringify(this.state.contacts)
+      );
     }
   }
 
